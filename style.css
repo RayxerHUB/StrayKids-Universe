@@ -1,33 +1,30 @@
-/* DARK MODE */
+/* PARTICLE BACKGROUND */
 
-body.dark-mode{
-
-background:#0f172a;
-color:#e2e8f0;
-
+.particle{
+position:fixed;
+width:6px;
+height:6px;
+background:#64b5f6;
+border-radius:50%;
+opacity:.4;
+pointer-events:none;
+animation:floatParticle linear infinite;
 }
 
-body.dark-mode .glass-card{
+@keyframes floatParticle{
 
-background:rgba(30,41,59,.7);
-border:1px solid rgba(255,255,255,.05);
-
+0%{
+transform:translateY(100vh);
+opacity:0;
 }
 
-body.dark-mode nav{
-
-background:#020617;
-
+10%{
+opacity:.6;
 }
 
-body.dark-mode .stat-card{
-
-background:#1e293b;
-
+100%{
+transform:translateY(-100vh);
+opacity:0;
 }
-
-body.dark-mode footer{
-
-background:#020617;
 
 }
