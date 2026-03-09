@@ -1,30 +1,44 @@
-/* PARTICLE BACKGROUND */
+/* SPOTIFY STYLE ALBUM HOVER */
 
-.particle{
-position:fixed;
-width:6px;
-height:6px;
-background:#64b5f6;
-border-radius:50%;
-opacity:.4;
-pointer-events:none;
-animation:floatParticle linear infinite;
+.album-card{
+position:relative;
+overflow:hidden;
+transition:all .45s ease;
 }
 
-@keyframes floatParticle{
+.album-card::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(
+to top,
+rgba(0,0,0,.7),
+transparent 60%
+);
+opacity:0;
+transition:.4s;
+}
 
-0%{
-transform:translateY(100vh);
+.album-card:hover::after{
+opacity:1;
+}
+
+.album-card img{
+transition:transform .6s ease, filter .6s ease;
+}
+
+.album-card:hover img{
+transform:scale(1.15);
+filter:brightness(.8);
+}
+
+.play-overlay{
+transition:all .4s ease;
+transform:translate(-50%, -40%) scale(.6);
 opacity:0;
 }
 
-10%{
-opacity:.6;
-}
-
-100%{
-transform:translateY(-100vh);
-opacity:0;
-}
-
+.album-card:hover .play-overlay{
+transform:translate(-50%, -50%) scale(1);
+opacity:1;
 }
