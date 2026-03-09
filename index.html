@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stray Kids Universe | Light Blue Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --light-blue-50: #e3f2fd;
+            --light-blue-100: #bbdefb;
+            --light-blue-200: #90caf9;
+            --light-blue-300: #64b5f6;
+            --light-blue-400: #42a5f5;
+            --light-blue-500: #2196f3;
+            --light-blue-600: #1e88e5;
+            --light-blue-700: #1976d2;
+            --light-blue-800: #1565c0;
+            --light-blue-900: #0d47a1;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--light-blue-50) 0%, #f0f9ff 100%);
+            color: #0a192f;
+            min-height: 100vh;
+        }
+        
+        .gradient-text-blue {
+            background: linear-gradient(135deg, var(--light-blue-600), var(--light-blue-800));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(33, 150, 243, 0.25);
+            border-color: rgba(33, 150, 243, 0.4);
+        }
+        
+        .album-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        .album-card img {
+            transition: transform 0.5s ease;
+            height: 280px;
+            object-fit: cover;
+        }
+        
+        .album-card:hover img {
+            transform: scale(1.08);
+        }
+        
+        .album-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(13, 71, 161, 0.95), rgba(13, 71, 161, 0.7), transparent);
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .album-card:hover .album-overlay {
+            transform: translateY(0);
+        }
+        
+        .photocard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .photocard-item {
+            perspective: 1000px;
+            height: 250px;
+            cursor: pointer;
+        }
+        
+        .photocard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .photocard-item:hover .photocard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .photocard-front, .photocard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+        }
+        
+        .photocard-front {
+            background: linear-gradient(135deg, #ffffff 0%, var(--light-blue-100) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .photocard-front img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+        
+        .photocard-back {
+            background: linear-gradient(135deg, var(--light-blue-600) 0%, var(--light-blue-800) 100%);
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        
+        .photocard-back h4 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+        
+        .photocard-back p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(720deg); }
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--light-blue-500);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(33, 150, 243, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(33, 150, 243, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(33, 150, 243, 0.05) 0%, transparent 30%);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(179,229,252,0.9) 100%);
+            border-left: 4px solid var(--light-blue-500);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--light-blue-500) 0%, var(--light-blue-700) 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+            filter: brightness(1.1);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-blue-500), var(--light-blue-300));
+            border-radius: 2px;
+        }
+        
+        .album-year {
+            background: var(--light-blue-500);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .album-card:hover .play-overlay {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .play-overlay i {
+            color: var(--light-blue-700);
+            font-size: 1.5rem;
+            margin-left: 4px;
+        }
+        
+        @media (max-width: 640px) {
+            .photocard-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .photocard-item {
+                height: 220px;
+            }
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--light-blue-200), var(--light-blue-400));
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Decorative Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape" style="width: 300px; height: 300px; top: -150px; left: -150px; background: var(--light-blue-200);"></div>
+        <div class="shape" style="width: 200px; height: 200px; top: 50%; right: -100px; background: var(--light-blue-300); animation-delay: -5s;"></div>
+        <div class="shape" style="width: 150px; height: 150px; bottom: -75px; left: 30%; background: var(--light-blue-400); animation-delay: -10s;"></div>
+    </div>
+    
+    <!-- Decorative Circles -->
+    <div class="decorative-circle" style="width: 400px; height: 400px; top: 10%; right: -200px;"></div>
+    <div class="decorative-circle" style="width: 300px; height: 300px; bottom: 10%; left: -150px;"></div>
+    
+    <!-- Navbar -->
+    <nav class="bg-white bg-opacity-90 backdrop-blur-md sticky top-0 z-50 shadow-lg border-b border-blue-100">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold gradient-text-blue flex items-center">
+                    <i class="fas fa-music mr-2 text-blue-500"></i> Stray Kids Universe
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link font-medium text-blue-900 hover:text-blue-600">Home</a>
+                    <a href="#albums" class="nav-link font-medium text-blue-900 hover:text-blue-600">Albums</a>
+                    <a href="#photocards" class="nav-link font-medium text-blue-900 hover:text-blue-600">Photo Cards</a>
+                    <a href="#about" class="nav-link font-medium text-blue-900 hover:text-blue-600">About SKZ</a>
+                    <button class="btn-primary text-white px-5 py-2 rounded-full font-medium">
+                        Join STAY <i class="fas fa-user-plus ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-blue-700 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-blue-100 pt-4">
+                <a href="#home" class="block py-2 px-3 text-blue-900 hover:bg-blue-50 rounded-lg transition">Home</a>
+                <a href="#albums" class="block py-2 px-3 text-blue-900 hover:bg-blue-50 rounded-lg transition">Albums</a>
+                <a href="#photocards" class="block py-2 px-3 text-blue-900 hover:bg-blue-50 rounded-lg transition">Photo Cards</a>
+                <a href="#about" class="block py-2 px-3 text-blue-900 hover:bg-blue-50 rounded-lg transition">About SKZ</a>
+                <button class="btn-primary text-white px-5 py-2 rounded-full font-medium w-full mt-3">
+                    Join STAY <i class="fas fa-user-plus ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center hero-pattern pt-20">
+        <div class="container mx-auto px-4 py-16">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 scroll-reveal">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                        <span class="gradient-text-blue">Stray Kids</span><br>
+                        <span class="text-blue-800">Light Blue Universe</span>
+                    </h1>
+                    <p class="text-lg text-blue-800 mb-8 leading-relaxed">
+                        Jelajahi dunia Stray Kids dengan tema biru muda yang menenangkan. Koleksi album lengkap dan photocard eksklusif dalam desain yang segar dan modern.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#albums" class="btn-primary text-white px-8 py-3 rounded-full font-medium flex items-center">
+                            Lihat Album <i class="fas fa-compact-disc ml-2"></i>
+                        </a>
+                        <a href="#photocards" class="bg-white border-2 border-blue-300 text-blue-600 px-8 py-3 rounded-full font-medium hover:bg-blue-50 transition flex items-center">
+                            Photocard Collection <i class="fas fa-images ml-2"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-12 grid grid-cols-3 gap-6">
+                        <div class="stat-card p-4 rounded-xl">
+                            <div class="text-3xl font-bold text-blue-600">8</div>
+                            <div class="text-sm text-blue-800">Anggota</div>
+                        </div>
+                        <div class="stat-card p-4 rounded-xl">
+                            <div class="text-3xl font-bold text-blue-600">14+</div>
+                            <div class="text-sm text-blue-800">Album</div>
+                        </div>
+                        <div class="stat-card p-4 rounded-xl">
+                            <div class="text-3xl font-bold text-blue-600">100+</div>
+                            <div class="text-sm text-blue-800">Photocards</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 scroll-reveal">
+                    <div class="relative">
+                        <img src="https://i.scdn.co/image/ab67616d0000b273e3a4e9a4b9a3a3a3a3a3a3a3" 
+                             alt="Stray Kids Light Blue Concept" 
+                             class="rounded-2xl shadow-2xl w-full object-cover"
+                             onerror="this.src='https://via.placeholder.com/600x400/e3f2fd/1976d2?text=Stray+Kids+Light+Blue'">
+                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl border border-blue-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-play text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-blue-900">Now Playing</div>
+                                    <div class="text-sm text-blue-600">Thunderous (English Ver.)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Albums Section -->
+    <section id="albums" class="py-20 bg-gradient-to-b from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-bold gradient-text-blue mb-4">Koleksi Album Resmi</h2>
+                <p class="text-blue-800 max-w-2xl mx-auto">
+                    Setiap album akan diawali dengan konsep warna biru muda yang menenangkan, menampilkan foto-foto eksklusif dan lagu-lagu andalan.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Album 1: GO LIVE -->
+                <div class="glass-card album-card scroll-reveal">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Stray_Kids_-_Go_Live.png" 
+                             alt="GO LIVE Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=GO+LIVE'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2020</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">GO LIVE</h3>
+                        <p class="text-blue-600 text-sm mb-4">Album Penuh Energi</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">13 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. God's Menu</li>
+                            <li>2. Easy</li>
+                            <li>3. Pacemaker</li>
+                            <li>4. Blueprint</li>
+                            <li>5. Airplane</li>
+                            <li>6. Astronaut</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Album 2: NOEASY -->
+                <div class="glass-card album-card scroll-reveal" style="animation-delay: 0.1s">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/e/ed/Stray_Kids_-_NOEASY.png" 
+                             alt="NOEASY Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=NOEASY'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2021</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">NOEASY</h3>
+                        <p class="text-blue-600 text-sm mb-4">The Sound of Thunder</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">14 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. Thunderous</li>
+                            <li>2. Domino</li>
+                            <li>3. Cheese</li>
+                            <li>4. The View</li>
+                            <li>5. Wait for Us</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Album 3: ODDINARY -->
+                <div class="glass-card album-card scroll-reveal" style="animation-delay: 0.2s">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/c/c8/Stray_Kids_-_Oddinary.png" 
+                             alt="ODDINARY Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=ODDINARY'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2022</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">ODDINARY</h3>
+                        <p class="text-blue-600 text-sm mb-4">Crazy in Love</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">12 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. Maniac</li>
+                            <li>2. Venom</li>
+                            <li>3. Charmer</li>
+                            <li>4. Freeze</li>
+                            <li>5. LALALALA</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Album 4: MAXIDENT -->
+                <div class="glass-card album-card scroll-reveal" style="animation-delay: 0.3s">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/Stray_Kids_-_Maxident.png" 
+                             alt="MAXIDENT Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=MAXIDENT'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2022</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">MAXIDENT</h3>
+                        <p class="text-blue-600 text-sm mb-4">Love & Identity</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">12 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. CASE 143</li>
+                            <li>2. Chill</li>
+                            <li>3. Taste</li>
+                            <li>4. Can't Stop</li>
+                            <li>5. 3RACHA</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Album 5: 5-STAR -->
+                <div class="glass-card album-card scroll-reveal" style="animation-delay: 0.4s">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Stray_Kids_5-STAR.jpg/300px-Stray_Kids_5-STAR.jpg" 
+                             alt="5-STAR Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=5-STAR'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2023</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">5-STAR</h3>
+                        <p class="text-blue-600 text-sm mb-4">★★★★★</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">12 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. S-Class</li>
+                            <li>2. Super Bowl</li>
+                            <li>3. Get Lit</li>
+                            <li>4. 3RACHA</li>
+                            <li>5. Heaven</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Album 6: ROCK-STAR -->
+                <div class="glass-card album-card scroll-reveal" style="animation-delay: 0.5s">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Stray_Kids_-_ROCK-STAR_%28English_version%29.jpg/300px-Stray_Kids_-_ROCK-STAR_%28English_version%29.jpg" 
+                             alt="ROCK-STAR Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=ROCK-STAR'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2023</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">ROCK-STAR</h3>
+                        <p class="text-blue-600 text-sm mb-4">World Domination</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">12 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. LALALALA</li>
+                            <li>2. Megaverse</li>
+                            <li>3. Blocker</li>
+                            <li>4. Young & Dumb</li>
+                            <li>5. Rock</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Album 7: ATE -->
+                <div class="glass-card album-card scroll-reveal" style="animation-delay: 0.6s">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/Stray_Kids_-_ATE.jpg/300px-Stray_Kids_-_ATE.jpg" 
+                             alt="ATE Album" 
+                             class="w-full"
+                             onerror="this.src='https://via.placeholder.com/300x300/e3f2fd/1976d2?text=ATE'">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="album-year">2024</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-1">ATE</h3>
+                        <p class="text-blue-600 text-sm mb-4">Consumption of Excellence</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">12 Tracks</span>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                Details <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-overlay">
+                        <h4 class="font-bold text-lg mb-2">Tracklist:</h4>
+                        <ul class="text-sm space-y-1 mb-4">
+                            <li>1. Chk Chk Boom</li>
+                            <li>2. Social Path</li>
+                            <li>3. S-Class</li>
+                            <li>4. Hallucination</li>
+                            <li>5. Runners</li>
+                        </ul>
+                        <button class="w-full bg-white text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                            <i class="fas fa-headphones mr-2"></i> Preview
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Cards Section -->
+    <section id="photocards" class="py-20 bg-gradient-to-b from-white to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-bold gradient-text-blue mb-4">Koleksi Photocard Eksklusif</h2>
+                <p class="text-blue-800 max-w-2xl mx-auto">
+                    Setiap photocards dirancang dengan konsep warna biru muda yang indah, menampilkan anggota Stray Kids dalam berbagai pose dan tema.
+                </p>
+            </div>
+            
+            <div class="photocard-grid">
+                <!-- Photocards untuk setiap anggota -->
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/8d/0a/61/8d0a61c5e6d0a7a0b1b1c3e3e0e0e0e0.jpg" 
+                                 alt="Felix Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Felix'">
+                            <div class="mt-3 font-bold text-blue-900">Felix</div>
+                            <div class="text-xs text-blue-600">ODDINARY</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Felix</h4>
+                            <p class="mb-3">Leeknow, Hyunjin, Felix</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>15 Sep 2000
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Vocalist
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Australian
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: 3RACHA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/f1/a0/0b/f1a00b1d0a0a0d0a0d0a0d0a0d0a0d0a.jpg" 
+                                 alt="Hyunjin Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Hyunjin'">
+                            <div class="mt-3 font-bold text-blue-900">Hyunjin</div>
+                            <div class="text-xs text-blue-600">NOEASY</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Hyunjin</h4>
+                            <p class="mb-3">Dancer, Rapper, Visual</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>20 Mar 2000
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Main Dancer
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Korean
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: Danceracha
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/e8/2c/80/e82c80c80c80c80c80c80c80c80c80c8.jpg" 
+                                 alt="Lee Know Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Lee+Know'">
+                            <div class="mt-3 font-bold text-blue-900">Lee Know</div>
+                            <div class="text-xs text-blue-600">MAXIDENT</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Lee Know</h4>
+                            <p class="mb-3">Dancer, Vocalist, Rapper</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>25 Oct 1998
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Main Dancer
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Korean
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: Danceracha
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/2c/6c/3c/2c6c3c3c3c3c3c3c3c3c3c3c3c3c3c3c.jpg" 
+                                 alt="Bang Chan Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Bang+Chan'">
+                            <div class="mt-3 font-bold text-blue-900">Bang Chan</div>
+                            <div class="text-xs text-blue-600">GO LIVE</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Bang Chan</h4>
+                            <p class="mb-3">Leader, Vocalist, Rapper, Producer</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>3 Oct 1997
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Leader
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Australian
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: 3RACHA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/7b/7c/7d/7b7c7d7c7d7d7d7d7d7d7d7d7d7d7d7d.jpg" 
+                                 alt="Changbin Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Changbin'">
+                            <div class="mt-3 font-bold text-blue-900">Changbin</div>
+                            <div class="text-xs text-blue-600">SKZ-Replay</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Changbin</h4>
+                            <p class="mb-3">Rapper, Producer, Songwriter</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>11 Aug 1999
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Main Rapper
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Korean
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: 3RACHA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/f3/d3/d3/f3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3.jpg" 
+                                 alt="Han Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Han'">
+                            <div class="mt-3 font-bold text-blue-900">Han</div>
+                            <div class="text-xs text-blue-600">ROCK-STAR</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Han</h4>
+                            <p class="mb-3">Vocalist, Rapper, Producer</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>14 Sep 1999
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Vocalist
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Korean
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: 3RACHA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/e7/1d/a3/e71da34e9e0c5c3c3c3c3c3c3c3c3c3c.jpg" 
+                                 alt="Seungmin Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Seungmin'">
+                            <div class="mt-3 font-bold text-blue-900">Seungmin</div>
+                            <div class="text-xs text-blue-600">5-STAR</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Seungmin</h4>
+                            <p class="mb-3">Vocalist, Host</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>22 Sep 2000
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Main Vocalist
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Korean
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: Vocalracha
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/f9/e2/a3/f9e2a34e9e0c5c3c3c3c3c3c3c3c3c3c3c3c.jpg" 
+                                 alt="I.N Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=I.N'">
+                            <div class="mt-3 font-bold text-blue-900">I.N</div>
+                            <div class="text-xs text-blue-600">Christmas EveL</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">I.N</h4>
+                            <p class="mb-3">Vocalist, Dancer, Maknae</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-birthday-cake mb-1"></i><br>8 Feb 2001
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Lead Vocalist
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>Korean
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Sub-unit: Vocalracha
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group Photocards -->
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/c1/c1/c1/c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1.jpg" 
+                                 alt="Group Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=Group'">
+                            <div class="mt-3 font-bold text-blue-900">Full Group</div>
+                            <div class="text-xs text-blue-600">Circus</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">Stray Kids</h4>
+                            <p class="mb-3">8 Members Together</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-users mb-1"></i><br>8 Members
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-calendar mb-1"></i><br>2022
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-star mb-1"></i><br>All Members
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-heart mb-1"></i><br>Limited Edition
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photocard-item scroll-reveal">
+                    <div class="photocard-inner">
+                        <div class="photocard-front">
+                            <img src="https://i.pinimg.com/originals/9d/d9/d9/9dd9d9d9d9d9d9d9d9d9d9d9d9d9d9d9.jpg" 
+                                 alt="3RACHA Photocard" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://via.placeholder.com/180x220/e3f2fd/1976d2?text=3RACHA'">
+                            <div class="mt-3 font-bold text-blue-900">3RACHA</div>
+                            <div class="text-xs text-blue-600">Sub-unit</div>
+                        </div>
+                        <div class="photocard-back">
+                            <h4 class="text-xl font-bold">3RACHA</h4>
+                            <p class="mb-3">Bang Chan, Changbin, Han</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-users mb-1"></i><br>3 Members
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-music mb-1"></i><br>Producer Unit
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-compact-disc mb-1"></i><br>SKZ-Replay
+                                </div>
+                                <div class="bg-blue-800 bg-opacity-30 p-2 rounded">
+                                    <i class="fas fa-fire mb-1"></i><br>All Genres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center scroll-reveal">
+                <button class="btn-primary text-white px-8 py-4 rounded-full font-medium text-lg shadow-lg">
+                    <i class="fas fa-th mr-2"></i> Lihat Semua Koleksi
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gradient-to-br from-blue-100 to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2 scroll-reveal">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Stray_Kids_at_the_2023_MTV_Video_Music_Awards.png/800px-Stray_Kids_at_the_2023_MTV_Video_Music_Awards.png" 
+                         alt="Stray Kids Group" 
+                         class="rounded-2xl shadow-2xl w-full"
+                         onerror="this.src='https://via.placeholder.com/600x400/e3f2fd/1976d2?text=Stray+Kids'">
+                </div>
+                <div class="md:w-1/2 scroll-reveal">
+                    <h2 class="text-4xl font-bold gradient-text-blue mb-6">Tentang Stray Kids</h2>
+                    <div class="space-y-4 text-blue-900">
+                        <p class="leading-relaxed">
+                            <strong>Stray Kids</strong> (스트레이 키즈) adalah grup vokal pria Korea Selatan yang dibentuk oleh JYP Entertainment melalui acara realitas tahun 2017. Grup ini beranggotakan delapan orang: <span class="font-semibold">Bang Chan, Lee Know, Changbin, Hyunjin, Han, Felix, Seungmin, dan I.N</span>.
+                        </p>
+                        <p class="leading-relaxed">
+                            Dikenal karena kemampuan <strong>memproduksi lagu mereka sendiri</strong> dan penampilan yang energik, Stray Kids debut pada 25 Maret 2018, dengan EP <em>I Am Not</em>. Sejak saat itu, mereka telah mendapatkan pengakuan global untuk suara unik dan pesan kuat mereka.
+                        </p>
+                        <p class="leading-relaxed">
+                            Musik mereka, yang sebagian besar dibuat oleh trio produksi internal <strong>3RACHA</strong> (Bang Chan, Changbin, Han), menggabungkan berbagai genre, menciptakan suara "Marataste" yang khas dan beresonansi dengan penggemar di seluruh dunia.
+                        </p>
+                        <p class="leading-relaxed">
+                            Dengan konsep <strong>"Makes Their Own Music"</strong>, Stray Kids terus mendominasi chart global dengan album-album seperti <em>GO LIVE</em>, <em>NOEASY</em>, <em>ODDINARY</em>, <em>MAXIDENT</em>, <em>5-STAR</em>, <em>ROCK-STAR</em>, dan <em>ATE</em>.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-500">
+                            <div class="text-3xl font-bold text-blue-600">8</div>
+                            <div class="text-blue-800">Anggota</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-500">
+                            <div class="text-3xl font-bold text-blue-600">2018</div>
+                            <div class="text-blue-800">Tahun Debut</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-500">
+                            <div class="text-3xl font-bold text-blue-600">3RACHA</div>
+                            <div class="text-blue-800">Producer Unit</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-500">
+                            <div class="text-3xl font-bold text-blue-600">STAY</div>
+                            <div class="text-blue-800">Official Fanclub</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">Stray Kids Universe</h3>
+                    <p class="text-blue-200 max-w-md">
+                        Website fansite resmi bertema light blue untuk STAYs di seluruh dunia. Koleksi album dan photocard lengkap dengan desain yang memukau.
+                    </p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="bg-blue-700 hover:bg-blue-600 p-3 rounded-full transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="bg-blue-700 hover:bg-blue-600 p-3 rounded-full transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="bg-blue-700 hover:bg-blue-600 p-3 rounded-full transition">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                    <a href="#" class="bg-blue-700 hover:bg-blue-600 p-3 rounded-full transition">
+                        <i class="fab fa-tiktok text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-blue-700 mt-8 pt-8 text-center text-blue-200">
+                <p>&copy; 2024 Stray Kids Universe. Dibuat oleh ray <i class="fas fa-heart text-red-400 mx-1"></i> untuk STAYs.</p>
+                <p class="text-sm mt-2">Theme: Light Blue Edition | All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Photocard flip sound effect simulation (optional)
+        document.querySelectorAll('.photocard-item').forEach(card => {
+            card.addEventListener('click', function() {
+                // Add any additional functionality here
+                console.log('Photocard flipped');
+            });
+        });
+
+        // Add loading animation for images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '0';
+                setTimeout(() => {
+                    this.style.transition = 'opacity 0.5s ease';
+                    this.style.opacity = '1';
+                }, 100);
+            });
+        });
+
+        // Album card play button functionality
+        document.querySelectorAll('.album-card').forEach(card => {
+            const playBtn = card.querySelector('.play-overlay');
+            if (playBtn) {
+                playBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    alert('Fitur播放 akan ditambahkan dalam pengembangan selanjutnya!');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
