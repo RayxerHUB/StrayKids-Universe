@@ -1,39 +1,44 @@
-/* REALISTIC PHOTOCARD 3D */
+/* SPOTIFY STYLE ALBUM HOVER */
 
-.photocard-item{
-perspective:1600px;
+.album-card{
+position:relative;
+overflow:hidden;
+transition:all .45s ease;
 }
 
-.photocard-inner{
-transition:transform .9s cubic-bezier(.25,.46,.45,.94);
-transform-style:preserve-3d;
-}
-
-.photocard-item:hover .photocard-inner{
-transform:rotateY(180deg) rotateZ(2deg);
-}
-
-.photocard-front,
-.photocard-back{
-box-shadow:
-0 10px 30px rgba(0,0,0,.2),
-0 0 20px rgba(33,150,243,.25);
-}
-
-.photocard-front::after{
+.album-card::after{
 content:"";
 position:absolute;
 inset:0;
 background:linear-gradient(
-120deg,
-transparent,
-rgba(255,255,255,.3),
-transparent
+to top,
+rgba(0,0,0,.7),
+transparent 60%
 );
 opacity:0;
-transition:.5s;
+transition:.4s;
 }
 
-.photocard-item:hover .photocard-front::after{
+.album-card:hover::after{
+opacity:1;
+}
+
+.album-card img{
+transition:transform .6s ease, filter .6s ease;
+}
+
+.album-card:hover img{
+transform:scale(1.15);
+filter:brightness(.8);
+}
+
+.play-overlay{
+transition:all .4s ease;
+transform:translate(-50%, -40%) scale(.6);
+opacity:0;
+}
+
+.album-card:hover .play-overlay{
+transform:translate(-50%, -50%) scale(1);
 opacity:1;
 }
